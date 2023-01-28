@@ -35,7 +35,7 @@ def split_lines(lines: List[bytes]):
     return code
 
 
-def main(sourcefile, outputfile):
+def main(sourcefile, output_file):
     if not sourcefile.exists():
         print(f"{sourcefile} is not exists")
         return
@@ -47,8 +47,8 @@ def main(sourcefile, outputfile):
     if pc.returncode == 0:
         lines = pc.stdout.splitlines()
         code = split_lines(lines)
-        if outputfile:
-            with open(outputfile, "wb") as f:
+        if output_file:
+            with open(output_file, "wb") as f:
                 f.write(code)
         else:
             code = '\\' + code.hex('\\')
@@ -59,6 +59,4 @@ if __name__ == '__main__':
     if len(sys.argv) == 1:
         print("need source_file_path \r\n help:\r\n \tshellcodecompiler source_file_path [output_file_path]")
         sys.exit(0)
-    sourcefile = pathlib.Path(sys.argv[1])
-    outputfile = len(sys.argv) >= 3 and pathlib.Path(sys.argv[2]) or None
-    main(sourcefile, outputfile)
+    main(pathlib.Path(sys.argv[1]), len(sys.argv) >= 3 and pathlib.Path(sys.argv[2]) or None)
